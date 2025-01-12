@@ -7,6 +7,7 @@ import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import RefineResumePage from './pages/RefineResumePage';
 import InterviewPrepPage from './pages/InterviewPrepPage';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <CssBaseline />
       <Router>
         <Layout>
+          <Navbar />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/refine-resume" element={<RefineResumePage />} />
