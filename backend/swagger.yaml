@@ -1,0 +1,163 @@
+openapi: 3.0.3
+info:
+  title: Resume ATS System API
+  description: |
+    API documentation for the Resume ATS System, which provides resume refinement 
+    and interview preparation services powered by OpenAI's GPT models.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+  - url: https://api.your-domain.com
+    description: Production server
+
+paths:
+  /refine-resume:
+    post:
+      summary: Refine a resume based on job description
+      description: |
+        Upload a resume (PDF/DOCX) and provide a job description to get an optimized version 
+        of the resume that better matches the job requirements.
+      operationId: refineResume
+      tags:
+        - Resume
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Resume file (PDF or DOCX)
+                job_description:
+                  type: string
+                  description: Text of the job description
+                job_description_url:
+                  type: string
+                  format: uri
+                  description: Optional URL to scrape job description from
+                generate_cover_letter:
+                  type: boolean
+                  description: Whether to generate a cover letter
+                  default: false
+      responses:
+        '200':
+          description: Successfully refined resume
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  refined_resume:
+                    type: string
+                    description: The refined resume text
+                  match_percentage:
+                    type: number
+                    format: float
+                    description: Percentage match with job requirements
+                  matched_requirements:
+                    type: array
+                    items:
+                      type: string
+                    description: List of matched job requirements
+                  changes:
+                    type: array
+                    items:
+                      type: string
+                    description: List of changes made to the resume
+                  cover_letter:
+                    type: string
+                    nullable: true
+                    description: Generated cover letter (if requested)
+                  file_type:
+                    type: string
+                    enum: [pdf, docx]
+                    description: Original file type
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
+
+  /generate-interview-qa:
+    post:
+      summary: Generate interview questions and answers
+      description: Generate likely interview questions and sample answers based on company and role
+      operationId: generateInterviewQA
+      tags:
+        - Interview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                company_name:
+                  type: string
+                  description: Name of the company
+                role_title:
+                  type: string
+                  description: Job title or role
+                resume_text:
+                  type: string
+                  description: Optional resume text for personalized questions
+                  nullable: true
+              required:
+                - company_name
+                - role_title
+      responses:
+        '200':
+          description: Successfully generated Q&A
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  questions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        question:
+                          type: string
+                        answer:
+                          type: string
+        '500':
+          description: Server error
+
+  /download-refined-resume/{file_type}:
+    get:
+      summary: Download refined resume
+      description: Download the refined resume in the specified format
+      operationId: downloadRefinedResume
+      tags:
+        - Resume
+      parameters:
+        - name: file_type
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [pdf, docx]
+        - name: refined_text
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: File download
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '500':
+          description: Server error
+
+components:
+  schemas: {} 

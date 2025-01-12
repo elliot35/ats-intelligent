@@ -7,6 +7,7 @@ An intelligent resume refinement and interview preparation system powered by Ope
 - Interview question generation with sample answers
 - Modern Material UI interface
 - FastAPI backend with OpenAI integration
+- Interactive API documentation with Swagger UI
 - Support for both local development and production environments
 
 ## Screenshots
@@ -65,10 +66,24 @@ npm install
 npm start
 ```
 
+## API Documentation
+The API documentation is available through Swagger UI:
+
+- Local development: http://localhost:8080
+- Production: https://your-domain.com:8080
+
+The Swagger UI provides interactive documentation for all available endpoints, including:
+- Resume refinement
+- Interview question generation
+- Document downloads
+
+You can test the APIs directly from the Swagger UI interface.
+
 ## Architecture
 - Frontend: React with Material UI
 - Backend: FastAPI with OpenAI integration
 - Docker containers for both frontend and backend
+- Swagger UI for API documentation (port 8080)
 - Nginx reverse proxy for production deployment
 
 ## Deployment
