@@ -9,6 +9,17 @@ An intelligent resume refinement and interview preparation system powered by Ope
 - FastAPI backend with OpenAI integration
 - Support for both local development and production environments
 
+## Screenshots
+
+### Home Page
+![Home Page](assets/screenshots/HomePage.png)
+
+### Refine Resume
+![Refine Resume](assets/screenshots/RefineResume.png)
+
+### Interview Preparation
+![Interview Preparation](assets/screenshots/InterviewPrep.png)
+
 ## Setup & Installation
 
 ### Prerequisites
