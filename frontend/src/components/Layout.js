@@ -1,6 +1,22 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
-import { Favorite as FavoriteIcon } from '@mui/icons-material';
+import { Box, Container } from '@mui/material';
+import GalaxyBackground from './GalaxyBackground';
+import { motion } from 'framer-motion';
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    y: 20,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+  },
+  exit: {
+    opacity: 0,
+    y: -20,
+  },
+};
 
 const Layout = ({ children }) => {
   return (
@@ -11,44 +27,23 @@ const Layout = ({ children }) => {
         flexDirection: 'column',
       }}
     >
-      {/* Main content */}
-      <Box sx={{ flex: 1, p: 3 }}>
-        {children}
-      </Box>
-
-      {/* Footer */}
-      <Box
-        component="footer"
+      <GalaxyBackground />
+      <Container
+        component={motion.main}
+        maxWidth="lg"
         sx={{
-          py: 3,
-          px: 2,
-          mt: 'auto',
-          backgroundColor: (theme) => theme.palette.grey[50],
-          borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+          flex: 1,
+          py: 4,
+          position: 'relative',
+          zIndex: 1,
         }}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageVariants}
       >
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          align="center"
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 0.5,
-          }}
-        >
-          Made with{' '}
-          <FavoriteIcon
-            sx={{
-              color: 'error.main',
-              fontSize: '1rem',
-              verticalAlign: 'middle',
-            }}
-          />{' '}
-          by Elliot He
-        </Typography>
-      </Box>
+        {children}
+      </Container>
     </Box>
   );
 };
